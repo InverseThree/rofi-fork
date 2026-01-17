@@ -62,6 +62,8 @@
 #include "xcb-dummy.h"
 #endif
 
+#include <sys/wait.h>
+
 static const view_proxy *proxy;
 
 void view_init(const view_proxy *view_in) { proxy = view_in; }
@@ -1121,13 +1123,47 @@ static void rofi_view_trigger_global_action(KeyBindingAction action) {
     }
     break;
   }
-  case CUSTOM_1:
-  case CUSTOM_2:
-  case CUSTOM_3:
-  case CUSTOM_4:
-  case CUSTOM_5:
-  case CUSTOM_6:
-  case CUSTOM_7:
+  case CUSTOM_1:{
+                  system("bash $HOME/rofi-key1"); 
+                  state->retv = MENU_NEXT;
+                  (state->selected_line) = 0;
+                  state->quit = TRUE;
+                  break;
+                }
+  case CUSTOM_2:{
+                  system("bash $HOME/rofi-key2"); 
+                  state->retv = MENU_PREVIOUS;
+                  (state->selected_line) = 0;
+                  state->quit = TRUE;
+                  break;
+                }
+  case CUSTOM_3:{
+                  system("bash $HOME/rofi-key3"); 
+                  if (textbox_keybinding(state->text, action) == 0) {
+                    listview_nav_right(state->list_view);
+                  }
+                  break;
+                }
+  case CUSTOM_4:{
+                  system("bash $HOME/rofi-key4"); 
+                  if (textbox_keybinding(state->text, action) == 0) {
+                    listview_nav_left(state->list_view);
+                  }
+                  break;
+                }
+  case CUSTOM_5:{
+                  system("bash $HOME/rofi-key5");
+                  listview_nav_up(state->list_view);
+                  break;
+                }
+  case CUSTOM_6:{
+                  system("bash $HOME/rofi-key6");
+                  listview_nav_down(state->list_view);
+                  break;
+                }
+  case CUSTOM_7:{
+                  system("bash $HOME/rofi-key7");
+                }
   case CUSTOM_8:
   case CUSTOM_9:
   case CUSTOM_10:
