@@ -1028,12 +1028,7 @@ static void rofi_view_trigger_global_action(KeyBindingAction action) {
     break;
   case COPY_SECONDARY: {
     char *data = NULL;
-    unsigned int selected = listview_get_selected(state->list_view);
-    if (selected < state->filtered_lines) {
-      data = mode_get_completion(state->sw, state->line_map[selected]);
-    } else if (state->text && state->text->text) {
       data = g_strdup(state->text->text);
-    }
     if (data) {
 #ifdef ENABLE_XCB
       if (config.backend == DISPLAY_XCB) {
@@ -1124,47 +1119,54 @@ static void rofi_view_trigger_global_action(KeyBindingAction action) {
     break;
   }
   case CUSTOM_1:{
-                  system("bash $HOME/rofi-key1"); 
+                  system("rofi-key1"); 
                   state->retv = MENU_NEXT;
                   (state->selected_line) = 0;
                   state->quit = TRUE;
                   break;
                 }
   case CUSTOM_2:{
-                  system("bash $HOME/rofi-key2"); 
+                  system("rofi-key2"); 
                   state->retv = MENU_PREVIOUS;
                   (state->selected_line) = 0;
                   state->quit = TRUE;
                   break;
                 }
   case CUSTOM_3:{
-                  system("bash $HOME/rofi-key3"); 
+                  system("rofi-key3"); 
                   if (textbox_keybinding(state->text, action) == 0) {
                     listview_nav_right(state->list_view);
                   }
                   break;
                 }
   case CUSTOM_4:{
-                  system("bash $HOME/rofi-key4"); 
+                  system("rofi-key4"); 
                   if (textbox_keybinding(state->text, action) == 0) {
                     listview_nav_left(state->list_view);
                   }
                   break;
                 }
   case CUSTOM_5:{
-                  system("bash $HOME/rofi-key5");
+                  system("rofi-key5");
                   listview_nav_up(state->list_view);
                   break;
                 }
   case CUSTOM_6:{
-                  system("bash $HOME/rofi-key6");
+                  system("rofi-key6");
                   listview_nav_down(state->list_view);
                   break;
                 }
   case CUSTOM_7:{
-                  system("bash $HOME/rofi-key7");
+                  system("rofi-key7");
+                  break;
                 }
-  case CUSTOM_8:
+  case CUSTOM_8:{
+                  char *data = NULL;
+                  char cmd[100];
+                  data = g_strdup(state->text->text);
+                  sprintf(cmd,"echo %s | xsel -p --trim",data);
+                  system(cmd);
+                }
   case CUSTOM_9:
   case CUSTOM_10:
   case CUSTOM_11:
